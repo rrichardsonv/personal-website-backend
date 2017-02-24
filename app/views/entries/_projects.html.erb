@@ -1,0 +1,17 @@
+<div class="row">
+  <h3>project.name</h3> 
+  <div class="col-md-4">
+    <%if project.visual_type == 'youtube'  %>
+      <iframe width="560" height="315" src="<%=project.visual_url%>" frameborder="0" allowfullscreen></iframe> 
+    </div>
+    <% else %>
+    <% end %>
+  <div class="col-md-8">
+    <p>
+      <%= project.entry.body  %>
+      <span><strong>Stack:</strong> <br><%= project.stack  %></span>
+      <a href="<%= project.repo_url  %>">Github</a>
+      <a href="<%= project.website_url  %>">Live version</a>
+    </p>
+  </div>
+</div>

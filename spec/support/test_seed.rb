@@ -1,60 +1,59 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+class TestSeeder
+  attr_reader :user_id, :visitor_id, :entry_id, :project_id
 
-class DevSeeder
-  attr_reader :user_id, :visitor_id, :project_entry_id, :project_id
-  OPTIONS =     <<-STR
-//////////////////////////////////
-        SEEDING OPTIONS
-//////////////////////////////////
-
-  all -------- for seed all
-  drop ------- for anti-seed
-  users ------ for seed users
-STR
-
-  def initialize
-    puts OPTIONS
-    handler(STDIN.gets.chomp)
+  def initialize(options={})
+    mode = options.fetch(:auto, true)
+    if mode
+      self.handler("reset")
+    end
   end
 
-  def handler(mode)
+  def handler(mode, options={})
     case mode
+    when "reset"
+      self.clear_all
+      self.every_table(options)
+      puts "Clear and seed successful"
     when "all"
-      self.every_table
+      self.every_table(options)
       puts "Seed all successful"
     when "drop"
       self.clear_all
       puts "Clear all successful"
     when "users"
-      self.users
-      puts "Seed users successful"
+      self.users(options)
+    when "entries"
+      self.entries(options)
+    when "projects"
+      self.projects(options)
     else
-      puts "Not a proper option"
-      puts OPTIONS
-      handler(STDIN.gets.chomp)
+      raise "Problem in seed handling"
     end
   end
 
+  protected
   def clear_all
     User.destroy_all
-    Visitor.destroy_all
     Entry.destroy_all
+    Visitor.destroy_all
     Project.destroy_all
   end
 
-  def every_table
-    self.users
-    self.visitors
-    self.entries
-    self.projects
+  def every_table(options={})
+
+    user_options = options.fetch(:user_deets, {})
+    self.users(user_options)
+
+    visitor_options = options.fetch(:visitor_deets, {})
+    self.visitors(visitor_options)
+
+    entries_options = options.fetch(:entries_deets, {})
+    self.entries(entries_options)
+
+    project_options = options.fetch(:project_deets, {})
+    self.projects(project_options)
   end
-  protected
+
   def users(options={})
     user_info = {
       username: "test",
@@ -64,6 +63,7 @@ STR
       twitter: "test",
       linkedin: "test"
     }
+    user_info = options if options.any?
     user = User.new(user_info)
     unless user.save
       raise "Problem in user seed"
@@ -77,6 +77,7 @@ STR
       name: "Visi Tor",
       email: "Visi@tor.net"
     }
+    visitor_info = options if options.any?
     visitor = Visitor.new(visitor_info)
     unless visitor.save
       raise "Problem in visitor seed"
@@ -95,6 +96,7 @@ STR
       website_url: "http://testFake.herokuapp.com",
       entry_id: project_entry_id
     }
+    project_info = options if options.any?
     project = Project.new(project_info)
     unless project.save
       raise "Problem in projects seed"
@@ -103,21 +105,19 @@ STR
     end
   end
 
-  def entries(options={})
+  def entries(options=[])
     entries = [
       {
         title: "Lots of fun on Project 1",
         body: "of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem",
         authorable_type: "User",
-        authorable_id: user_id,
-        
+        authorable_id: user_id,        
       },
       {
         title: "Request for Website",
         body: "of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining",
         authorable_type: "Visitor",
         authorable_id: visitor_id
-
       },
       {
         title: "Blog post on lorem",
@@ -126,10 +126,9 @@ STR
            essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem ",
         authorable_type: "User",
         authorable_id: user_id
-
-
       }
       ]
+    entries = options if options.any? && options[0].any?
     i = 0
     entries.each do |entry_info|
       entry = Entry.new(entry_info)
@@ -137,15 +136,11 @@ STR
         raise "Problem in entry seed"
       else
         if i == 0 
-          @project_entry_id = entry.id 
+          @entry_id = entry.id 
         end
       end
       i += 1
     end
   end
+
 end
-
-
-
-dev_seed = DevSeeder.new
-
