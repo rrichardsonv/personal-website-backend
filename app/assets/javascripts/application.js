@@ -14,3 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+$(document).ready(function(){
+  formatEmbededYoutube();
+});
+
+formatEmbededYoutube = function(){
+  $(".ytp-chrome-bottom").addClass("smaller-video-bar");
+  $(".ytp-chrome-controls").addClass("smaller-video-controls");
+  $("iframe").addClass("thumbsized");
+}
