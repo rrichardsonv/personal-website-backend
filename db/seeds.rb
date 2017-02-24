@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 class DevSeeder
-  attr_reader :seed_directive, :user_id, :visitor_id, :project_entry_id
+  attr_reader :user_id, :visitor_id, :project_entry_id, :project_id
   OPTIONS =     <<-STR
 //////////////////////////////////
         SEEDING OPTIONS
@@ -20,12 +20,11 @@ STR
 
   def initialize
     puts OPTIONS
-    @seed_directive = STDIN.gets.chomp
-    seed_handler
+    handler(STDIN.gets.chomp)
   end
 
-  def seed_handler
-    case self.seed_directive
+  def handler(mode)
+    case mode
     when "all"
       self.every_table
       puts "Seed all successful"
@@ -36,21 +35,26 @@ STR
       self.users
       puts "Seed users successful"
     else
-      puts "didn't get that"
+      puts "Not a proper option"
       puts OPTIONS
-      @seed_directive = STDIN.gets.chomp
-      seed_handler
+      handler(STDIN.gets.chomp)
     end
   end
 
   def clear_all
     User.destroy_all
+    Visitor.destroy_all
+    Entry.destroy_all
+    Project.destroy_all
   end
 
   def every_table
     self.users
+    self.visitors
+    self.entries
+    self.projects
   end
-
+  protected
   def users(options={})
     user_info = {
       username: "test",
@@ -91,7 +95,12 @@ STR
       website_url: "http://testFake.herokuapp.com",
       entry_id: project_entry_id
     }
-
+    project = Project.new(project_info)
+    unless project.save
+      raise "Problem in projects seed"
+    else
+      @project_id = project.id
+    end
   end
 
   def entries(options={})

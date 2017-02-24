@@ -1,16 +1,15 @@
 class TestSeeder
-  attr_reader :seed_directive, :user_id, :visitor_id, :entry_id, :project_id
+  attr_reader :user_id, :visitor_id, :entry_id, :project_id
 
   def initialize(options={})
     mode = options.fetch(:auto, true)
     if mode
-      self.handler("drop")
-      self.handler("all")
+      self.handler("reset")
     end
   end
 
-  def handler(seed_directive, options={})
-    case seed_directive
+  def handler(mode, options={})
+    case mode
     when "reset"
       self.clear_all
       self.every_table(options)
@@ -32,7 +31,7 @@ class TestSeeder
     end
   end
 
-  private
+  protected
   def clear_all
     User.destroy_all
     Entry.destroy_all
