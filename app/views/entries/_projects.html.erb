@@ -1,29 +1,31 @@
 <div class="row">
-  <h3><%=project.name %></h3> 
+
+
   <div class="col-md-4">
     <% mode = project.visual_type %>
     <%case mode%>
-    <% when 'youtube' %>
+    <% when 'video' %>
       <iframe class="video" src="<%=project.visual_url%>" frameborder="0" allowfullscreen></iframe>
-    <% when 'screenshot'%>
+    <% when 'image'%>
       <img class="thumbsized" src="<%=project.visual_url%>">
     <% else %>
       <div class="thumbsized no-sample">
+        
       </div>
     <% end %>
   </div>
+
   <div class="col-md-8">
-    <p>
-      <%= project.entry.body  %><br>
-      <span><strong>Stack:</strong><%= ["  ",project.stack].join("")  %></span>
-      <div class="list-inline">
-        <li> 
-        <a href="<%= project.repo_url  %>">Github</a>
-        </li>
-        <li>
-        <a href="<%= project.website_url  %>">Live version</a>
-        </li>        
-      </div>
-    </p>
+    <h3 class="project-title"><%=project.name %></h3> 
+        <%= project.entry.body  %><br>
+        <span><strong>Stack:</strong><%= ["  ",project.stack].join("")  %></span>
+        <div class="list-inline">
+          <li> 
+          <a href="<%= project.repo_url  %>">Github</a>
+          </li>
+          <li>
+          <a href="<%= project.website_url  %>">Live version</a>
+          </li>        
+        </div>
   </div>
 </div>

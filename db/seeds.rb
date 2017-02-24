@@ -90,7 +90,7 @@ STR
       name: "Project 1",
       stack: "Postgresql, Rails, jQuery",
       visual_url: "https://www.youtube.com/embed/p3u1cSIVor0",
-      visual_type: "youtube",
+      visual_type: "video",
       repo_url: "http://github.com/test/testFake",
       website_url: "http://testFake.herokuapp.com",
       entry_id: project_entry_id
