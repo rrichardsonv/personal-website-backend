@@ -1,14 +1,22 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
 
-  get 'sessions/create'
+  # scope :admin do
+  #   resources :sessions, only: [:new, :create, :destroy]
+  #   root 'sessions#new'
+  # end
 
-  get 'sessions/destroy'
+  resources :users, only: [:show, :edit, :update]
 
-  resources :visitors, only: :create do
-    resources :entries, only: [:new, :create, :index]
-  end
+  # resources :visitors, only: :create do
+  #   resources :entries, only: :create
+  # end
+  resources :entries, only: [:index]
 
-  resources :entries, only: [:index, :show]
+  get '/about', to: redirect("users/1")
+  get '/blog', to: "users/entries#index"
+  get '/contact', to: "entries#new"
+  get '/projects', to: redirect("/entries?filter=projects")
+
+  root 'welcomes#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
