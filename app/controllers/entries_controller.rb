@@ -5,6 +5,6 @@ class EntriesController < ApplicationController
   def create
   end
 
-  def index
+  def index  
   end
 end
