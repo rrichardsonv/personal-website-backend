@@ -7,7 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 class DevSeeder
-  attr_reader :seed_directive
+  attr_reader :seed_directive, :user_id, :visitor_id, :project_entry_id
   OPTIONS =     <<-STR
 //////////////////////////////////
         SEEDING OPTIONS
@@ -63,6 +63,75 @@ STR
     user = User.new(user_info)
     unless user.save
       raise "Problem in user seed"
+    else
+      @user_id = user.id
+    end
+  end
+
+  def visitors(options={})
+    visitor_info = {
+      name: "Visi Tor",
+      email: "Visi@tor.net"
+    }
+    visitor = Visitor.new(visitor_info)
+    unless visitor.save
+      raise "Problem in visitor seed"
+    else
+      @visitor_id = visitor.id
+    end
+  end
+
+  def projects(options={})
+    project_info = {
+      name: "Project 1",
+      stack: "Postgresql, Rails, jQuery",
+      visual_url: "https://www.youtube.com/embed/p3u1cSIVor0",
+      visual_type: "youtube",
+      repo_url: "http://github.com/test/testFake",
+      website_url: "http://testFake.herokuapp.com",
+      entry_id: project_entry_id
+    }
+
+  end
+
+  def entries(options={})
+    entries = [
+      {
+        title: "Lots of fun on Project 1",
+        body: "of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem",
+        authorable_type: "User",
+        authorable_id: user_id,
+        
+      },
+      {
+        title: "Request for Website",
+        body: "of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining",
+        authorable_type: "Visitor",
+        authorable_id: visitor_id
+
+      },
+      {
+        title: "Blog post on lorem",
+        body: "of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap 
+
+           essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem ",
+        authorable_type: "User",
+        authorable_id: user_id
+
+
+      }
+      ]
+    i = 0
+    entries.each do |entry_info|
+      entry = Entry.new(entry_info)
+      unless entry.save
+        raise "Problem in entry seed"
+      else
+        if i == 0 
+          @project_entry_id = entry.id 
+        end
+      end
+      i += 1
     end
   end
 end
