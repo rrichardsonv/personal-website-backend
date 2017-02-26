@@ -10,7 +10,7 @@ class EntriesController < ApplicationController
     when 'projects'
       @projects = Project.all
     else
-      @entries = Entry.all
+      @entries = User.first.entries
     end
   end
 end

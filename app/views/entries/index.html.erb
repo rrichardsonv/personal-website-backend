@@ -5,8 +5,8 @@
     <% end %>
   <%elsif @entries %>
     <h1>ENTRIEZ for the blag</h1>
-    <%entries.each do |entry|%>
-      <%=render partial: "blog", layout: false, locals:{ entry: entry } %>
+    <%@entries.each do |entry|%>
+      <%=render partial: "post", layout: false, locals:{ entry: entry } %>
     <% end %>
   <%else %>
     <h1>There doesn't seem to be anything here</h1>

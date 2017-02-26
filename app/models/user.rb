@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   before_save :format_social_media
 
-  has_many :entries
+  has_many :entries, as: :authorable
   has_many :projects, through: :entries
 
   def format_social_media
