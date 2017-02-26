@@ -6,18 +6,18 @@
       </div>
       <div class="list-group-item">
         <div class="list-inline">
-          <li><div class="social-media-icon ">
-          </div></li>
-          <li><div class="social-media-icon ">
-          </div></li>
-          <li><div class="social-media-icon ">
-          </div></li>
-          <li><div class="social-media-icon ">
-          </div></li>
+          <li><a href="<%=@user.github  %>"><div class="social-media-icon github">
+          </div></a></li>
+          <li><a href="<%=@user.twitter  %>"><div class="social-media-icon twitter">
+          </div></a></li>
+          <li><a href="<%=@user.linkedin  %>"><div class="social-media-icon linkedin">
+          </div></a></li>
+          <li><a href="mailto:<%=@user.email  %>"><div class="social-media-icon email">
+          </div></a></li>
         </div>
       </div>
       <div class="list-group-item">      
-        <span class="contact-text">Email: rrichardsonv@gmail.com</span>
+        <span class="contact-text">Email: <%= @user.email  %></span>
       </div>
     </div>
   </div>

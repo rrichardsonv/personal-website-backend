@@ -13,9 +13,10 @@ Rails.application.routes.draw do
   resources :entries, only: [:index]
 
   get '/about', to: redirect("users/1")
-  get '/blog', to: "users/entries#index"
+  get '/blog', to: redirect("/entries")
   get '/contact', to: "entries#new"
   get '/projects', to: redirect("/entries?filter=projects")
+  get '/resume', to: "welcomes#resume"
 
   root 'welcomes#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
