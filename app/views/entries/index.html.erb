@@ -1,12 +1,15 @@
 <div class="entries-wrapper">
   <%if @projects%>
+  <h4>Projects</h4>
     <%@projects.each do |project|%>
       <%=render partial: "projects", layout: false, locals:{ project: project } %>
     <% end %>
   <%elsif @entries %>
-    <h1>ENTRIEZ for the blag</h1>
+    <h4>Blog Posts</h4>
     <%@entries.each do |entry|%>
+      <ul class="blog-list">
       <%=render partial: "post", layout: false, locals:{ entry: entry } %>
+      </ul>
     <% end %>
   <%else %>
     <h1>There doesn't seem to be anything here</h1>
