@@ -1,0 +1,20 @@
+<p>
+<%= form_for entry do |f| %>
+    <%= f.fields_for visitor do |visitor_form| %>
+    Contact:<br>
+        <%= visitor_form.label :email  %>*
+        <%= visitor_form.text_field :email %><br>
+        <%=visitor_form.label :name %>
+        <%=visitor_form.text_field :name  %>
+    <% end %>
+  <br>
+  Msg:<br>
+    <%= f.label :title %>
+    <%= f.text_field :title %><br>
+    <%= f.label :body %>
+    <%= f.text_field :body %><br>
+
+    <%= f.submit "Contact"  %>
+
+<% end %>
+</p>

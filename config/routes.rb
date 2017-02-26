@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # resources :visitors, only: :create do
   #   resources :entries, only: :create
   # end
-  resources :entries, only: [:index]
+  resources :entries, only: [:index, :create]
 
   get '/about', to: redirect("users/1")
   get '/blog', to: redirect("/entries")
